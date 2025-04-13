@@ -35,9 +35,18 @@ void initPaging() {
     cout << "Nhap so khung RAM duoc cap phat cho tien trinh: ";  
     cin >> allocatedFrames;
 
-    // Tính số trang của tiến trình và số khung có trong RAM
+    numFrames = ramSize / pageSize; // Tính số khung RAM có trong hệ thống
+
+    // Kiểm tra hợp lệ
+    if (allocatedFrames > numFrames) {
+        cout << "Loi: So khung RAM duoc cap phat (" << allocatedFrames 
+             << ") lon hon tong so khung RAM co the su dung (" << numFrames << ").\n";
+        exit(1);
+    }
+    
+    // Tính số trang của tiến trình 
     numPages = processSize / pageSize + (processSize % pageSize != 0);
-    numFrames = ramSize / pageSize;
+   
 
     // Khởi tạo bảng trang và mảng RAM.
     pageTable.assign(numPages, -1); // -1: Tất cả các trang chưa vào RAM
